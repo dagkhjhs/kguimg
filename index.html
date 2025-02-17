@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>제비뽑기 게임</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+        input {
+            padding: 10px;
+            width: 300px;
+            margin: 10px 0;
+        }
+        button {
+            padding: 10px 15px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>제비뽑기 게임</h1>
+    <input type="text" id="participants" placeholder="참가자 이름을 입력하세요 (쉼표로 구분)">
+    <button id="drawButton">제비 뽑기</button>
+    <div id="result"></div>
+
+    <script>
+        const drawButton = document.getElementById('drawButton');
+        const resultElement = document.getElementById('result');
+
+        drawButton.addEventListener('click', () => {
+            const participants = document.getElementById('participants').value.split(',')
+                .map(p => p.trim())
+                .filter(p => p);
+            
+            if (participants.length < 1) {
+                alert("참가자가 최소 1명 이상이어야 합니다.");
+                return;
+            }
+
+            const randomIndex = Math.floor(Math.random() * participants.length);
+            resultElement.innerHTML = `${participants[randomIndex]}가 선택되었습니다!`;
+        });
+    </script>
+</body>
+</html>
+
+
+    <script>
+        const ladderElement = document.getElementById('ladder');
+        const resultElement = document.getElementById('result');
+        const startButton = document.getElementById('startButton');
+        const resultButton = document.getElementById('resultButton');
+
+        startButton.addEventListener('click', () => {
+            const participants = document.getElementById('participants').value.split(',').map(p => p.trim()).filter(p => p);
+            if (participants.length < 2) {
+                alert("참가자가 최소 2명 이상이어야 합니다.");
+                return;
+            }
+
+            ladderElement.innerHTML = '';
+            resultElement.innerHTML = '';
+            resultButton.style.display = 'block';
+
+            // 사다리 생성
+            for (let i = 0; i < participants.length; i++) {
+                const line = document.createElement('div');
+                line.classList.add('line');
+                line.style.width = `${100 / participants.length}%`;
+
+                // 교차선 추가
+                if (Math.random() < 0.5 && i < participants.length - 1) {
+                    const cross = document.createElement('div');
+                    cross.classList.add('cross');
+                    line.appendChild(cross);
+                }
+
+                ladderElement.appendChild(line);
+            }
+
+            // 결과 초기화
+            resultButton.onclick = () => {
+                const randomIndex = Math.floor(Math.random() * participants.length);
+                resultElement.innerHTML = `${participants[randomIndex]}가 선택되었습니다!`;
+            };
+        });
+    </script>
+</body>
+</html>
